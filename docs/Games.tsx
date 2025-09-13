@@ -42,6 +42,7 @@ export const GamesPage: FC = () => {
 
     return () => {
       postEvent("web_app_setup_back_button", { is_visible: false });
+      removeBackButtonListener();
       document.head.removeChild(gameScript);
       document.head.removeChild(bundleScript);
       location.reload();
