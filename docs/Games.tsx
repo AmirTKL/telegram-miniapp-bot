@@ -13,16 +13,13 @@ export const GamesPage: FC = () => {
     const gameFile = `/docs/${searchedGame}/main.js`;
     console.log(gameFile);
     gameScript.src = gameFile;
-    if (
-      gameFile === "/docs/httpslocalhost5173games/main.js" ||
-      gameFile === "/docs/https19216811275173games/main.js"
-    ) {
+    if (gameFile.includes("games/main.js")) {
       return;
     }
     toggleIsInGame(true);
     document.head.appendChild(gameScript);
   }
-  const removeListener = on("back_button_pressed", () => {
+  const removeBackButtonListener = on("back_button_pressed", () => {
     if (isInGame) {
       toggleIsInGame(false);
       location.href = "#/games";
@@ -34,41 +31,6 @@ export const GamesPage: FC = () => {
   });
 
   useEffect(() => {
-    // const soundsSomeSounds = document.createElement("script");
-    // soundsSomeSounds.src =
-    //   "https://unpkg.com/sounds-some-sounds@2.0.0/build/index.js";
-    // document.head.appendChild(soundsSomeSounds);
-
-    // const gifCaptureCanvas = document.createElement("script");
-    // gifCaptureCanvas.src =
-    //   "https://unpkg.com/gif-capture-canvas@1.1.0/build/index.js";
-    // document.head.appendChild(gifCaptureCanvas);
-
-    // const pixi = document.createElement("script");
-    // pixi.src = "https://unpkg.com/pixi.js@5.3.0/dist/pixi.min.js";
-    // document.head.appendChild(pixi);
-
-    // const pixiFilters = document.createElement("script");
-    // pixiFilters.src =
-    //   "https://unpkg.com/pixi-filters@3.1.1/dist/pixi-filters.js";
-    // document.head.appendChild(pixiFilters);
-
-    // const pixiScript = document.createElement("script");
-    // pixiScript.text = "var module = {}";
-    // document.head.appendChild(pixiScript);
-
-    // const lodashCloneDeep = document.createElement("script");
-    // lodashCloneDeep.src = "https://unpkg.com/lodash.clonedeep@4.5.0/index.js";
-    // document.head.appendChild(lodashCloneDeep);
-
-    // const bundle = document.createElement("script");
-    // bundle.src = "https://unpkg.com/crisp-game-lib@1.0.2/docs/bundle.js";
-    // document.head.appendChild(bundle);
-
-    // const addGameFile = document.createElement("script");
-    // addGameFile.text =
-    //   'function addGameFile() {const UrlParam = window.location.href.split("?"); let searchedGame = UrlParam[UrlParam.length - 1]; searchedGame = searchedGame.replace(/[^A-Za-z0-9_-]/g, ""); const gameFile = `/docs/${searchedGame}/main.js`; console.log(gameFile); const gameScript = document.createElement("script"); gameScript.src = gameFile; document.head.appendChild(gameScript); gameScript.id = "gameScript";} ';
-    // document.head.appendChild(addGameFile);
     postEvent("web_app_setup_back_button", { is_visible: true });
 
     const bundleScript = document.createElement("script");
@@ -86,7 +48,174 @@ export const GamesPage: FC = () => {
     };
   }, []);
 
-  const gameList = ["accelb", "wiper", "unctrl", "upshot", "vbomb"];
+  const gameList = [
+    "aerialbar",
+    "antlion",
+    "arcfire",
+    "balance",
+    "balloon",
+    "ballsbombs",
+    "balltour",
+    "bamboo",
+    "baroll",
+    "bblast",
+    "bcannon",
+    "bmath",
+    "boarding",
+    "bombup",
+    "bottop",
+    "breedc",
+    "bsfish",
+    "bwalls",
+    "cardq",
+    "castn",
+    "catapult",
+    "catep",
+    "chargebeam",
+    "circlew",
+    "cnodes",
+    "colorroll",
+    "count",
+    "counterb",
+    "crossline",
+    "ctower",
+    "cywall",
+    "darkcave",
+    "descents",
+    "dfight",
+    "digi10",
+    "divarr",
+    "dlaser",
+    "dmissile",
+    "doshin",
+    "dpistols",
+    "earock",
+    "embattled",
+    "findastar",
+    "flipbomb",
+    "flipo",
+    "floater",
+    "floors5",
+    "foosan",
+    "forfour",
+    "fromtwosides",
+    "froooog",
+    "futurewake",
+    "geocent",
+    "gloop",
+    "golfme",
+    "gpress",
+    "graveler",
+    "grenadier",
+    "growth",
+    "gtail",
+    "hexmin",
+    "hitblowup",
+    "holes",
+    "hoppingp",
+    "hyperlaser",
+    "infrange",
+    "interspace",
+    "intow",
+    "islash",
+    "jujump",
+    "jumpon",
+    "kite",
+    "ladderdrop",
+    "laserfortress",
+    "liedown",
+    "liftup",
+    "lightdark",
+    "lineb",
+    "lland",
+    "lrain",
+    "makemaze",
+    "mfield",
+    "mirrorfloor",
+    "mjamming",
+    "molen",
+    "monjum",
+    "mortar",
+    "mrider",
+    "notturn",
+    "nsclimb",
+    "numberball",
+    "numberline",
+    "orbitman",
+    "pairsdrop",
+    "parking",
+    "pfit",
+    "photonline",
+    "pileup",
+    "pillars3d",
+    "pinclimb",
+    "pizzaarrow",
+    "portalj",
+    "pressm",
+    "pumppress",
+    "raid",
+    "rebirth",
+    "refbals",
+    "reflector",
+    "regene",
+    "revolvea",
+    "rolfrg",
+    "rollnrope",
+    "rolls",
+    "rps",
+    "rring",
+    "rwheel",
+    "scaffold",
+    "scrambird",
+    "screen",
+    "shiny",
+    "sighton",
+    "skyfloor",
+    "slalom",
+    "slanes",
+    "slashes",
+    "smilyangry",
+    "smokeg",
+    "snake1",
+    "snaky",
+    "spearain",
+    "squarebar",
+    "sshake",
+    "subjump",
+    "sumten",
+    "survivor",
+    "swingby",
+    "tapej",
+    "tappump",
+    "tarutobi",
+    "teeter",
+    "thanoi",
+    "throwm",
+    "thrustlr",
+    "thunder",
+    "tilted",
+    "tlanes",
+    "tlaser",
+    "totoge",
+    "tpunch",
+    "trbeam",
+    "ttfence",
+    "turbulent",
+    "twhols",
+    "twinp",
+    "twofaced",
+    "twolane",
+    "udcave",
+    "unctrl",
+    "updownpress",
+    "upshot",
+    "vbomb",
+    "vhwalls",
+    "wiper",
+    "zartan",
+    "zoneb",
+    "zoomio",
+  ];
   return (
     <div
       style={{
@@ -96,21 +225,8 @@ export const GamesPage: FC = () => {
         gap: 10,
       }}
     >
-      {/* <button
-        onClick={() => {
-          if (isInGame) {
-            toggleIsInGame(false);
-            location.href = "#/games";
-            location.reload();
-          } else {
-            location.href = "";
-          }
-        }}
-      >
-        BACK
-      </button> */}
       {isInGame === true ? (
-        <div>en game</div>
+        <div>In Game</div>
       ) : (
         gameList.map((game) => {
           const gameName = game.charAt(0).toUpperCase() + game.slice(1);
