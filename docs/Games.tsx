@@ -1,6 +1,38 @@
-import { useEffect, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
+import { on, postEvent } from "@telegram-apps/sdk-react";
+import { Link } from "../src/components/Link/Link";
 
 export const GamesPage: FC = () => {
+  const [isInGame, toggleIsInGame] = useState(false);
+
+  const gameScript = document.createElement("script");
+  function addGameFile() {
+    const UrlParam = window.location.href.split("?");
+    let searchedGame = UrlParam[UrlParam.length - 1];
+    searchedGame = searchedGame.replace(/[^A-Za-z0-9_-]/g, "");
+    const gameFile = `/docs/${searchedGame}/main.js`;
+    console.log(gameFile);
+    gameScript.src = gameFile;
+    if (
+      gameFile === "/docs/httpslocalhost5173games/main.js" ||
+      gameFile === "/docs/https19216811275173games/main.js"
+    ) {
+      return;
+    }
+    toggleIsInGame(true);
+    document.head.appendChild(gameScript);
+  }
+  const removeListener = on("back_button_pressed", () => {
+    if (isInGame) {
+      toggleIsInGame(false);
+      location.href = "#/games";
+      location.reload();
+    } else {
+      location.href = "";
+      postEvent("web_app_setup_back_button", { is_visible: false });
+    }
+  });
+
   useEffect(() => {
     // const soundsSomeSounds = document.createElement("script");
     // soundsSomeSounds.src =
@@ -37,55 +69,67 @@ export const GamesPage: FC = () => {
     // addGameFile.text =
     //   'function addGameFile() {const UrlParam = window.location.href.split("?"); let searchedGame = UrlParam[UrlParam.length - 1]; searchedGame = searchedGame.replace(/[^A-Za-z0-9_-]/g, ""); const gameFile = `/docs/${searchedGame}/main.js`; console.log(gameFile); const gameScript = document.createElement("script"); gameScript.src = gameFile; document.head.appendChild(gameScript); gameScript.id = "gameScript";} ';
     // document.head.appendChild(addGameFile);
+    postEvent("web_app_setup_back_button", { is_visible: true });
 
-    const gameScript = document.createElement("script");
-    function addGameFile() {
-      const UrlParam = window.location.href.split("?");
-      let searchedGame = UrlParam[UrlParam.length - 1];
-      searchedGame = searchedGame.replace(/[^A-Za-z0-9_-]/g, "");
-      const gameFile = `/docs/${searchedGame}/main.js`;
-      console.log(gameFile);
-      gameScript.src = gameFile;
-      document.head.appendChild(gameScript);
-    }
-
-    addGameFile();
     const bundleScript = document.createElement("script");
-    bundleScript.text = "onLoad(); ";
+    addGameFile();
+    bundleScript.text = "onLoad();";
     gameScript.addEventListener("load", () => {
       document.head.appendChild(bundleScript);
     });
 
     return () => {
-      // document.head.removeChild(soundsSomeSounds);
-      // document.head.removeChild(gifCaptureCanvas);
-      // document.head.removeChild(pixi);
-      // document.head.removeChild(pixiFilters);
-      // document.head.removeChild(pixiScript);
-      // document.head.removeChild(lodashCloneDeep);
-      // document.head.removeChild(bundle);
-      // const bundleScript = document.head.querySelector("#bundleScript");
-      // console.log(bundleScript);
-      // document.head.removeChild(bundleScript!);
-      // console.log(document.head.getElementsByClassName("bundleScript"));
-      // document.head.removeChild(
-      //   document.head.getElementsByClassName("bundleScript")[0]
-      // );
-      // document.head.removeChild(document.getElementById("gameScript")!);
+      postEvent("web_app_setup_back_button", { is_visible: false });
+      document.head.removeChild(gameScript);
+      document.head.removeChild(bundleScript);
+      location.reload();
     };
   }, []);
 
+  const gameList = ["accelb", "wiper", "unctrl", "upshot", "vbomb"];
   return (
-    <div>{}</div>
-    // <head>
-    //   <script src="https://unpkg.com/sounds-some-sounds@2.0.0/build/index.js"></script>
-    //   <script src="https://unpkg.com/gif-capture-canvas@1.1.0/build/index.js"></script>
-    //   <script src="https://unpkg.com/pixi.js@5.3.0/dist/pixi.min.js"></script>
-    //   <script src="https://unpkg.com/pixi-filters@3.1.1/dist/pixi-filters.js"></script>
-    //   <script>var module = {};</script>
-    //   <script src="https://unpkg.com/lodash.clonedeep@4.5.0/index.js"></script>
-    //   <script src="https://unpkg.com/crisp-game-lib@1.0.2/docs/bundle.js"></script>
-    //   <script>addGameScript(); window.addEventListener("load", onLoad);</script>
-    // </head>
+    <div
+      style={{
+        textAlign: "center",
+        display: "grid",
+        gridTemplateColumns: "repeat(2, 1fr)",
+        gap: 10,
+      }}
+    >
+      {/* <button
+        onClick={() => {
+          if (isInGame) {
+            toggleIsInGame(false);
+            location.href = "#/games";
+            location.reload();
+          } else {
+            location.href = "";
+          }
+        }}
+      >
+        BACK
+      </button> */}
+      {isInGame === true ? (
+        <div>en game</div>
+      ) : (
+        gameList.map((game) => {
+          const gameName = game.charAt(0).toUpperCase() + game.slice(1);
+
+          return (
+            <div
+              key={game}
+              onClick={() => {
+                addGameFile();
+              }}
+            >
+              <Link to={`?${game}`}>
+                <h3 style={{ margin: 0, padding: 10 }}>{gameName}</h3>
+                <img width={150} src={`docs/${game}/screenshot.gif`} />
+              </Link>
+            </div>
+          );
+        })
+      )}
+    </div>
   );
 };
