@@ -2,6 +2,9 @@ import { useEffect, useState, type FC } from "react";
 import { on, postEvent } from "@telegram-apps/sdk-react";
 import { Link } from "../src/components/Link/Link";
 
+const BASE_URL= "/telegram-miniapp-bot/" // prod
+// const BASE_URL= "/" // dev
+
 export const GamesPage: FC = () => {
   const [isInGame, toggleIsInGame] = useState(false);
 
@@ -10,7 +13,7 @@ export const GamesPage: FC = () => {
     const UrlParam = window.location.href.split("?");
     let searchedGame = UrlParam[UrlParam.length - 1];
     searchedGame = searchedGame.replace(/[^A-Za-z0-9_-]/g, "");
-    const gameFile = `/docs/${searchedGame}/main.js`;
+    const gameFile = `${BASE_URL}docs/${searchedGame}/main.js`;
     console.log(gameFile);
     gameScript.src = gameFile;
     if (gameFile.includes("games/main.js")) {
@@ -241,7 +244,7 @@ export const GamesPage: FC = () => {
             >
               <Link to={`?${game}`}>
                 <h3 style={{ margin: 0, padding: 10 }}>{gameName}</h3>
-                <img width={150} src={`docs/${game}/screenshot.gif`} />
+                <img width={150} src={`${BASE_URL}docs/${game}/screenshot.gif`} />
               </Link>
             </div>
           );
