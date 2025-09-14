@@ -5,7 +5,7 @@ import { InitDataPage } from "@/pages/InitDataPage.tsx";
 import { LaunchParamsPage } from "@/pages/LaunchParamsPage.tsx";
 import { ThemeParamsPage } from "@/pages/ThemeParamsPage.tsx";
 import { TONConnectPage } from "@/pages/TONConnectPage/TONConnectPage";
-import { GamesPage } from "../../docs/Games.tsx";
+import { GamesPage } from "../../public/docs/Games.tsx";
 
 interface Route {
   path: string;

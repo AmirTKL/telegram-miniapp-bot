@@ -1,6 +1,6 @@
 import { useEffect, useState, type FC } from "react";
 import { on, postEvent } from "@telegram-apps/sdk-react";
-import { Link } from "../src/components/Link/Link";
+import { Link } from "../../src/components/Link/Link";
 
 const BASE_URL= "/telegram-miniapp-bot/" // prod
 // const BASE_URL= "/" // dev

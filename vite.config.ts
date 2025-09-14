@@ -13,6 +13,7 @@ export default defineConfig({
       },
     },
   },
+
   plugins: [
     basicSsl(),
     // Allows using React dev server along with building a React application with Vite.
@@ -27,8 +28,10 @@ export default defineConfig({
   ],
   build: {
     target: "esnext",
+    copyPublicDir: true,
+    outDir: "dist",
   },
-  publicDir: "./public",
+  // publicDir: "public",
   server: {
     host: true,
   },
