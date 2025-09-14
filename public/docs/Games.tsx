@@ -2,11 +2,11 @@ import { useEffect, useState, type FC } from "react";
 import { on, postEvent } from "@telegram-apps/sdk-react";
 import { Link } from "../../src/components/Link/Link";
 
-const BASE_URL= "/telegram-miniapp-bot/" // prod
+const BASE_URL = "/telegram-miniapp-bot/"; // prod
 // const BASE_URL= "/" // dev
 
 export const GamesPage: FC = () => {
-  const [isInGame, toggleIsInGame] = useState(false);
+  const [isInGame, toggleIsInGame] = useState(true);
 
   const gameScript = document.createElement("script");
   function addGameFile() {
@@ -17,13 +17,17 @@ export const GamesPage: FC = () => {
     console.log(gameFile);
     gameScript.src = gameFile;
     if (gameFile.includes("games/main.js")) {
+      // alert("No games selected");
+      toggleIsInGame(false);
       return;
     }
+    // alert("Game detected");
     toggleIsInGame(true);
     document.head.appendChild(gameScript);
   }
   const removeBackButtonListener = on("back_button_pressed", () => {
     if (isInGame) {
+      // alert("Button pressed");
       toggleIsInGame(false);
       location.href = "#/games";
       location.reload();
@@ -44,6 +48,7 @@ export const GamesPage: FC = () => {
     });
 
     return () => {
+      // alert("Cleaning up");
       postEvent("web_app_setup_back_button", { is_visible: false });
       removeBackButtonListener();
       document.head.removeChild(gameScript);
@@ -229,6 +234,20 @@ export const GamesPage: FC = () => {
         gap: 10,
       }}
     >
+      <button
+        onClick={() => {
+          if (isInGame) {
+            // alert("Back Pressed");
+            toggleIsInGame(false);
+            location.href = "#/games";
+            location.reload();
+          } else {
+            location.href = "";
+          }
+        }}
+      >
+        BACK
+      </button>
       {isInGame === true ? (
         <div>In Game</div>
       ) : (
@@ -240,11 +259,16 @@ export const GamesPage: FC = () => {
               key={game}
               onClick={() => {
                 addGameFile();
+                // alert("Reloading from the onclick event");
+                location.reload();
               }}
             >
               <Link to={`?${game}`}>
                 <h3 style={{ margin: 0, padding: 10 }}>{gameName}</h3>
-                <img width={150} src={`${BASE_URL}docs/${game}/screenshot.gif`} />
+                <img
+                  width={150}
+                  src={`${BASE_URL}docs/${game}/screenshot.gif`}
+                />
               </Link>
             </div>
           );
