@@ -210,10 +210,7 @@ function Games() {
           <div key={game}>
             <Link to={`/games/$gameName`} params={{ gameName: game }}>
               <h3 style={{ margin: 0, padding: 10 }}>{gameName}</h3>
-              <img
-                width={150}
-                src={`${BASE_URL}/docs/${game}/screenshot.gif`}
-              />
+              <img width={150} src={`${BASE_URL}docs/${game}/screenshot.gif`} />
             </Link>
           </div>
         );
