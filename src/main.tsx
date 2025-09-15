@@ -4,7 +4,7 @@ import { routeTree } from "./routeTree.gen";
 import "./mockEnv.ts";
 
 // Create a new router instance
-const router = createRouter({ routeTree, basepath: "/telegram-miniapp-bot/" });
+const router = createRouter({ routeTree, basepath: "/telegram-miniapp-bot", isPrerendering: true });
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
