@@ -3,11 +3,8 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import "./mockEnv.ts";
 
-const BASE_URL = "/"; // prod
-// const BASE_URL = "/telegram-miniapp-bot/"; // dev
-
 // Create a new router instance
-const router = createRouter({ routeTree, basepath: BASE_URL });
+const router = createRouter({ routeTree, basepath: "/telegram-miniapp-bot/" });
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
