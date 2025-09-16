@@ -1,5 +1,5 @@
 import { on, showBackButton } from "@telegram-apps/sdk-react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import z from "zod";
 
@@ -19,6 +19,16 @@ function Games() {
       navigate({ to: "/" });
     });
   }, []);
+  function turnImagesOff() {
+    const oldPageImages = document.getElementsByTagName("img");
+    console.log(oldPageImages);
+    for (let i = 0; i < oldPageImages.length; i++) {
+      const image = oldPageImages[i];
+      console.log(image.src);
+      image.src = "";
+      console.log(image.src);
+    }
+  }
 
   const fullGameList = [
     "aerialbar",
@@ -217,7 +227,7 @@ function Games() {
             flex: "auto",
           }}
         >
-          <Link
+          <button
             style={{
               fontWeight: "bold",
               padding: 5,
@@ -227,11 +237,13 @@ function Games() {
               borderRadius: 10,
             }}
             disabled={pageIndex === 1 ? true : false}
-            to="/games"
-            search={{ pageIndex: pageIndex - 1 }}
+            onClick={() => {
+              turnImagesOff();
+              navigate({ to: "/games", search: { pageIndex: pageIndex - 1 } });
+            }}
           >
             Prev Page
-          </Link>
+          </button>
         </div>
         <div>{pageIndex}</div>
         <div
@@ -239,7 +251,7 @@ function Games() {
             flex: "auto",
           }}
         >
-          <Link
+          <button
             style={{
               fontWeight: "bold",
               padding: 5,
@@ -249,11 +261,13 @@ function Games() {
               borderRadius: 10,
             }}
             disabled={pageIndex === 17 ? true : false}
-            to="/games"
-            search={{ pageIndex: pageIndex + 1 }}
+            onClick={() => {
+              turnImagesOff();
+              navigate({ to: "/games", search: { pageIndex: pageIndex + 1 } });
+            }}
           >
             Next Page
-          </Link>
+          </button>
         </div>
       </div>
       <div
@@ -269,13 +283,21 @@ function Games() {
 
           return (
             <div key={game}>
-              <Link to={`/games/$gameName`} params={{ gameName: game }}>
+              <button
+                onClick={() => {
+                  turnImagesOff();
+                  navigate({
+                    to: "/games/$gameName",
+                    params: { gameName: game },
+                  });
+                }}
+              >
                 <h3 style={{ margin: 0, padding: 10 }}>{gameName}</h3>
                 <img
                   width={150}
                   src={`${BASE_URL}docs/${game}/screenshot.gif`}
                 />
-              </Link>
+              </button>
             </div>
           );
         })}
