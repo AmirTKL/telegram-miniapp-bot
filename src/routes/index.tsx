@@ -7,7 +7,9 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="p-2">
-      <Link to="/games">Game Here</Link>
+      <Link to="/games" search={{ pageIndex: 1 }}>
+        Game Here
+      </Link>
     </div>
   );
 }

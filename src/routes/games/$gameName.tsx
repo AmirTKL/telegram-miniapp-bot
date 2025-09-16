@@ -30,7 +30,7 @@ function GameComponent() {
   useEffect(() => {
     showBackButton();
     on("back_button_pressed", () => {
-      navigate({ to: "/games" });
+      navigate({ to: "/games", search: { pageIndex: 1 } });
     });
     const bundleScript = document.createElement("script");
     addGameFile();

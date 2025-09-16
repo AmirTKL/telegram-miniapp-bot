@@ -1,14 +1,17 @@
 import { on, showBackButton } from "@telegram-apps/sdk-react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
+import z from "zod";
 
 export const Route = createFileRoute("/games/")({
   component: Games,
+  validateSearch: z.object({ pageIndex: z.number().gte(1).lte(17).catch(1) }),
 });
 
 const BASE_URL = "/telegram-miniapp-bot/";
 
 function Games() {
+  const { pageIndex } = Route.useSearch();
   const navigate = useNavigate();
   useEffect(() => {
     showBackButton();
@@ -17,7 +20,7 @@ function Games() {
     });
   }, []);
 
-  const gameList = [
+  const fullGameList = [
     "aerialbar",
     "antlion",
     "arcfire",
@@ -185,36 +188,98 @@ function Games() {
     "zoneb",
     "zoomio",
   ];
+  const numsPerGroup = 10;
+  const gameList = new Array(17)
+    .fill("")
+    .map((_, i) =>
+      fullGameList.slice(i * numsPerGroup, (i + 1) * numsPerGroup)
+    );
 
   return (
-    <div
-      style={{
-        textAlign: "center",
-        display: "grid",
-        gridTemplateColumns: "repeat(2, 1fr)",
-        gap: 10,
-      }}
-    >
-      {/* <button
-        onClick={() => {
-          location.href = "/";
+    <div>
+      <div
+        style={{
+          margin: 25,
+          display: "flex",
+          textAlign: "center",
+          justifyContent: "center",
         }}
       >
-        BACK
-      </button> */}
+        {/* <button
+          onClick={() => {
+            navigate({ to: "/" });
+          }}
+        >
+          BACK
+        </button> */}
+        <div
+          style={{
+            flex: "auto",
+          }}
+        >
+          <Link
+            style={{
+              fontWeight: "bold",
+              padding: 5,
+              borderWidth: 3,
+              borderColor: "black",
+              borderStyle: "solid",
+              borderRadius: 10,
+            }}
+            disabled={pageIndex === 1 ? true : false}
+            to="/games"
+            search={{ pageIndex: pageIndex - 1 }}
+          >
+            Prev Page
+          </Link>
+        </div>
+        <div>{pageIndex}</div>
+        <div
+          style={{
+            flex: "auto",
+          }}
+        >
+          <Link
+            style={{
+              fontWeight: "bold",
+              padding: 5,
+              borderWidth: 3,
+              borderColor: "black",
+              borderStyle: "solid",
+              borderRadius: 10,
+            }}
+            disabled={pageIndex === 17 ? true : false}
+            to="/games"
+            search={{ pageIndex: pageIndex + 1 }}
+          >
+            Next Page
+          </Link>
+        </div>
+      </div>
+      <div
+        style={{
+          textAlign: "center",
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: 10,
+        }}
+      >
+        {gameList[pageIndex - 1].map((game) => {
+          const gameName = game.charAt(0).toUpperCase() + game.slice(1);
 
-      {gameList.map((game) => {
-        const gameName = game.charAt(0).toUpperCase() + game.slice(1);
-
-        return (
-          <div key={game}>
-            <Link to={`/games/$gameName`} params={{ gameName: game }}>
-              <h3 style={{ margin: 0, padding: 10 }}>{gameName}</h3>
-              <img width={150} src={`${BASE_URL}docs/${game}/screenshot.gif`} />
-            </Link>
-          </div>
-        );
-      })}
+          return (
+            <div key={game}>
+              <Link to={`/games/$gameName`} params={{ gameName: game }}>
+                <h3 style={{ margin: 0, padding: 10 }}>{gameName}</h3>
+                <img
+                  width={150}
+                  src={`${BASE_URL}docs/${game}/screenshot.gif`}
+                />
+              </Link>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
