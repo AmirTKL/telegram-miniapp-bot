@@ -246,7 +246,7 @@ function Games() {
             Prev Page
           </button>
         </div>
-        <div>{pageIndex}</div>
+        <div style={{ color: "white" }}>{pageIndex}</div>
         <div
           style={{
             flex: "auto",
