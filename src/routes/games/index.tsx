@@ -294,10 +294,19 @@ function Games() {
                 }}
               >
                 <h3 style={{ margin: 0, padding: 10 }}>{gameName}</h3>
-                <img
-                  width={150}
-                  src={`${BASE_URL}docs/${game}/screenshot.gif`}
-                />
+                <div
+                  style={{
+                    backgroundColor: "gray",
+                    width: 150,
+                    height: 75,
+                  }}
+                >
+                  <img
+                    width={150}
+                    height={75}
+                    src={`${BASE_URL}docs/${game}/screenshot.gif`}
+                  />
+                </div>
               </button>
             </div>
           );
