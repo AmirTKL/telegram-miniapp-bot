@@ -13,12 +13,6 @@ const BASE_URL = "/telegram-miniapp-bot/";
 function Games() {
   const { pageIndex } = Route.useSearch();
   const navigate = useNavigate();
-  useEffect(() => {
-    showBackButton();
-    on("back_button_pressed", () => {
-      navigate({ to: "/" });
-    });
-  }, []);
   function turnImagesOff() {
     const oldPageImages = document.getElementsByTagName("img");
     console.log(oldPageImages);
@@ -29,6 +23,13 @@ function Games() {
       console.log(image.src);
     }
   }
+  useEffect(() => {
+    showBackButton();
+    on("back_button_pressed", () => {
+      turnImagesOff();
+      navigate({ to: "/" });
+    });
+  }, []);
 
   const fullGameList = [
     "aerialbar",
